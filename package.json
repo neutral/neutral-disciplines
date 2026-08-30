@@ -1,0 +1,11 @@
+{
+  "name": "lifecycle-discipline-packs",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "node scripts/validate.mjs",
+    "test": "node --test scripts/validate.test.mjs && node scripts/validate.mjs",
+    "update-manifests": "node scripts/update-manifests.mjs"
+  }
+}

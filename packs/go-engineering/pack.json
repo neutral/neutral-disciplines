@@ -1,0 +1,175 @@
+{
+  "schema": "lifecycle.discipline-pack.v1",
+  "id": "neutral.go-engineering",
+  "title": "Go Engineering",
+  "version": "1.0.0",
+  "publisher": "neutral",
+  "contract": {
+    "specificationRevision": "lifecycle.foundation.1.0.0-rc.9",
+    "knowledgeRecordSchema": "urn:lifecycle:schema:knowledge-record:v2"
+  },
+  "records": [
+    {
+      "id": "discipline.neutral.go-engineering.agent-authored-changes",
+      "path": "records/agent-authored-changes.md",
+      "revision": 1,
+      "sourceDigest": "sha256:d8c31c4909db5bbdf5ac52f4c2ac5945b63966cccf6c2acf7581d30f700bbb8e",
+      "semanticDigest": "sha256:538a947c682f9d86e28f7c30b74cecfa838c3bfc340d40e42dce2ed9af2a7c85"
+    },
+    {
+      "id": "discipline.neutral.go-engineering.command-composition",
+      "path": "records/command-composition.md",
+      "revision": 1,
+      "sourceDigest": "sha256:149883daa490acbdf7e8eadc7a6aa4ee6cae09836073e760fc06af2f51b57b0c",
+      "semanticDigest": "sha256:e9af33798bd7b9ab06edfd44361166432d3b61cab04c3bb9cb896b82b35a8683"
+    },
+    {
+      "id": "discipline.neutral.go-engineering.concurrency-determinism",
+      "path": "records/concurrency-determinism.md",
+      "revision": 1,
+      "sourceDigest": "sha256:86d2de5a7861d45daf285f8226cfb3ede642a1e3f7fd9866d7f6dcb83dcbde6f",
+      "semanticDigest": "sha256:8cccb46c08c2d7293d9d92d04d6339c83a8ddf393ee7e308ff9125ad8ce80536"
+    },
+    {
+      "id": "discipline.neutral.go-engineering.context-cancellation",
+      "path": "records/context-cancellation.md",
+      "revision": 1,
+      "sourceDigest": "sha256:6f7f141b7b1d917bfc22bdd6f506dd7b2216dd1a64ccc999e8ebcc4f8834213a",
+      "semanticDigest": "sha256:f24c1baab2297306983161c929fc28663dc0d5e5fa641a585c1793b816915025"
+    },
+    {
+      "id": "discipline.neutral.go-engineering.dependency-direction",
+      "path": "records/dependency-direction.md",
+      "revision": 1,
+      "sourceDigest": "sha256:8aef50ba218f3b1ddc06ced4f68536f77721b5af1ee0b5587a8f1e21b826c74a",
+      "semanticDigest": "sha256:03331979f979f7f677dd4f49e433e00164abf6398e38d0cb1d134f0eb1b23a3e"
+    },
+    {
+      "id": "discipline.neutral.go-engineering.error-contracts",
+      "path": "records/error-contracts.md",
+      "revision": 1,
+      "sourceDigest": "sha256:f7014d0e9f8002becee761dcf3dc67f7085ac1c00882465276272a6f7a73ae34",
+      "semanticDigest": "sha256:b836417239929c0c56c33a4132eaa3a46768b5efc6eba89ce233c322307b95d0"
+    },
+    {
+      "id": "discipline.neutral.go-engineering.fuzzing",
+      "path": "records/fuzzing.md",
+      "revision": 1,
+      "sourceDigest": "sha256:b50a02fa325b49eddd1e8e3ce220c03d7336e5af44e5f95c6633a098a733465c",
+      "semanticDigest": "sha256:bf15bb0ff4f8c29e161b9463495eb0915975fefff2f86e53d70a36eccdec87cc"
+    },
+    {
+      "id": "discipline.neutral.go-engineering.generated-artifacts",
+      "path": "records/generated-artifacts.md",
+      "revision": 1,
+      "sourceDigest": "sha256:ce4dd23c0c765afe9bd738585622b0c223234b8c2679b83722728f99de3d527b",
+      "semanticDigest": "sha256:d98882f9a0622ab66bed08c0e000aa3a9903f07be70e6439217bee406f8adaa9"
+    },
+    {
+      "id": "discipline.neutral.go-engineering.goroutine-lifecycle",
+      "path": "records/goroutine-lifecycle.md",
+      "revision": 1,
+      "sourceDigest": "sha256:9e6e5585fce69d9869f127d39ec9026279ee4bc0ba7c46a5db097da80190267d",
+      "semanticDigest": "sha256:abe61b774d58711937d9b9cde1563b187135af8f2938c0587ef42c77017987d8"
+    },
+    {
+      "id": "discipline.neutral.go-engineering.local-harnesses",
+      "path": "records/local-harnesses.md",
+      "revision": 1,
+      "sourceDigest": "sha256:441f7de070845240668c8b4d94f2342c648f8b1f625b9ea7ce475faf3f51fa12",
+      "semanticDigest": "sha256:eca83b8bc4ae6fc2f0dd622292a07f3f600a19e339ccf3ebd888231832c89d7a"
+    },
+    {
+      "id": "discipline.neutral.go-engineering.package-boundaries",
+      "path": "records/package-boundaries.md",
+      "revision": 1,
+      "sourceDigest": "sha256:6c618fde23163b1d7c36a1d6ba7302a4b7d65c68d1a830a6ebbaa750dee74dae",
+      "semanticDigest": "sha256:1caa6736be13746e9627c3d79b15d059f251a51c53a5bb1fefca811468536112"
+    },
+    {
+      "id": "discipline.neutral.go-engineering.package-naming-and-exported-contracts",
+      "path": "records/package-naming-and-exported-contracts.md",
+      "revision": 1,
+      "sourceDigest": "sha256:df81407be2d65708df86d4bca54bb3e525c53e65994ca141ffbc6d62ef2920f2",
+      "semanticDigest": "sha256:4823bfc544880f736f1ad9eb290b63b4994c4357fdacba1b62b055ce09fb4280"
+    },
+    {
+      "id": "discipline.neutral.go-engineering.public-api-contracts",
+      "path": "records/public-api-contracts.md",
+      "revision": 1,
+      "sourceDigest": "sha256:94bc90920543816a3ef2fa87acad0bf2e0f297526e8748511756d2637b6063fe",
+      "semanticDigest": "sha256:3072774161bca8a0fdcde8fb9a0f830f205fe39a106f08a2b4da571967f2a5d4"
+    },
+    {
+      "id": "discipline.neutral.go-engineering.table-driven-testing",
+      "path": "records/table-driven-testing.md",
+      "revision": 1,
+      "sourceDigest": "sha256:ba387cd42d56ed6b6d787c1dc664ec15df58b5376cf7c27d1b9b957fbb435312",
+      "semanticDigest": "sha256:824562058ff8bcfaec9d2d75687f665b30fdb19aa08b11ecad1fcf5c6d4ab909"
+    }
+  ],
+  "sets": [
+    {
+      "id": "neutral.go-engineering.core",
+      "title": "Go Engineering Core",
+      "description": "A compact starting point for ordinary Go implementation and review.",
+      "recordIds": [
+        "discipline.neutral.go-engineering.agent-authored-changes",
+        "discipline.neutral.go-engineering.dependency-direction",
+        "discipline.neutral.go-engineering.error-contracts",
+        "discipline.neutral.go-engineering.package-boundaries",
+        "discipline.neutral.go-engineering.package-naming-and-exported-contracts",
+        "discipline.neutral.go-engineering.public-api-contracts",
+        "discipline.neutral.go-engineering.table-driven-testing"
+      ]
+    },
+    {
+      "id": "neutral.go-engineering.generated-workflows",
+      "title": "Go Generated Workflows",
+      "description": "Guidance for Go work that includes generators, generated source, or durable local harnesses.",
+      "recordIds": [
+        "discipline.neutral.go-engineering.agent-authored-changes",
+        "discipline.neutral.go-engineering.generated-artifacts",
+        "discipline.neutral.go-engineering.local-harnesses",
+        "discipline.neutral.go-engineering.package-boundaries",
+        "discipline.neutral.go-engineering.package-naming-and-exported-contracts",
+        "discipline.neutral.go-engineering.table-driven-testing"
+      ]
+    },
+    {
+      "id": "neutral.go-engineering.service-runtime",
+      "title": "Go Service Runtime",
+      "description": "A curated starting point for Go commands, services, workers, and long-running runtime changes.",
+      "recordIds": [
+        "discipline.neutral.go-engineering.agent-authored-changes",
+        "discipline.neutral.go-engineering.command-composition",
+        "discipline.neutral.go-engineering.concurrency-determinism",
+        "discipline.neutral.go-engineering.context-cancellation",
+        "discipline.neutral.go-engineering.dependency-direction",
+        "discipline.neutral.go-engineering.error-contracts",
+        "discipline.neutral.go-engineering.goroutine-lifecycle",
+        "discipline.neutral.go-engineering.local-harnesses",
+        "discipline.neutral.go-engineering.package-boundaries",
+        "discipline.neutral.go-engineering.package-naming-and-exported-contracts",
+        "discipline.neutral.go-engineering.public-api-contracts",
+        "discipline.neutral.go-engineering.table-driven-testing"
+      ]
+    },
+    {
+      "id": "neutral.go-engineering.untrusted-input",
+      "title": "Go Untrusted Input",
+      "description": "A curated starting point for parsers, codecs, persistence formats, and other broad input spaces.",
+      "recordIds": [
+        "discipline.neutral.go-engineering.agent-authored-changes",
+        "discipline.neutral.go-engineering.concurrency-determinism",
+        "discipline.neutral.go-engineering.error-contracts",
+        "discipline.neutral.go-engineering.fuzzing",
+        "discipline.neutral.go-engineering.package-boundaries",
+        "discipline.neutral.go-engineering.package-naming-and-exported-contracts",
+        "discipline.neutral.go-engineering.public-api-contracts",
+        "discipline.neutral.go-engineering.table-driven-testing"
+      ]
+    }
+  ],
+  "digest": "sha256:263dfc2c78a268d556d01a3e498aae857847b404e7e9cc6820dbeeef237c86c1"
+}

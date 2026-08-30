@@ -1,70 +1,115 @@
-# Lifecycle Disciplines
+# Lifecycle Discipline Packs
 
-A small, public collection of **discipline packages** — reusable engineering
-judgment expressed as constraints, failure modes, and proof expectations that a
-methodology can retrieve and apply to real work.
+This repository publishes reusable engineering guidance as Discipline Packs.
+Each Pack divides a broad practice area into small records that projects can
+choose independently. Projects remain responsible for their own requirements
+and decisions.
 
-This repository exists to demonstrate the *concept* of a discipline package. It
-ships two production-oriented packages you can read end to end:
+## Vocabulary
 
-- **Test Strategy** (`neutral.test-strategy`) — proof strategy, evidence
-  adequacy, test selection, fuzzing, integration proof, release checks, and
-  proof-gap handling.
-- **Go Engineering** (`neutral.go-engineering`) — module and package
-  boundaries, command shells, dependency direction, context and cancellation,
-  goroutine lifecycle, error contracts, testing, fuzzing, and guardrails for
-  agent-authored Go.
+- A **Pack** is a versioned distribution unit with one exact manifest.
+- A **Pack Discipline record** is a full `lifecycle.knowledge-record.v2`
+  Discipline record authored in a Pack.
+- An **Adopted Discipline record** is a Pack Discipline record copied into a
+  target's `records/discipline/` root and registered with exact provenance in
+  that target's Discipline Registry.
+- A **Set** is a curated, named list of records in one Pack. It is a convenient
+  starting point, not another authority layer.
+- A **Work Type** is target-owned configuration describing work the target
+  actually performs. Packs do not infer or configure target Work Types.
 
-## What is a discipline package?
+Discipline is light-touch supporting Knowledge. It gives founder-developers and
+agents durable practice guidance, useful review questions, and pointers to
+possible verification. A target uses that guidance when useful and remains the
+source of its own requirements and decisions.
 
-A discipline package captures the durable, reusable judgment of an engineering
-discipline *without* deciding any single product's specifics. It tells a run
-what good looks like, what tends to go wrong, and what evidence is required to
-believe the work is done — then leaves the product-specific decisions to that
-target's own authority records.
+## Packs
 
-Each package is a single Markdown file with a consistent anatomy:
-
-- **Frontmatter** — `package_id`, `discipline`, `version`, `scope`,
-  `provenance`, the retrieval `slices`, and the `binding` ids.
-- **Purpose / Applies To / Does Not Apply To** — when to reach for the package
-  and, just as importantly, when not to.
-- **Discipline Concepts** — the package body, split into retrievable *slices*.
-  Each slice states what to preserve, its effect on product judgment, the
-  **adequate proof** that demonstrates the constraint is satisfied, and the
-  **common failure modes** it guards against.
-- **Binding** — how the package plugs into the methodology: selection triggers,
-  non-selection rules, the lifecycle **state effects** (Discovery, Work
-  Boundary, Build, Proof, Closure), the record fields it writes, and how
-  conflicts are resolved.
-
-The recurring idea is **proof**: a discipline doesn't just assert a rule, it
-names the evidence that would convince a reviewer the rule was honored, and the
-failure modes that evidence must rule out.
-
-## Layout
-
-```
-package-manifest.md                     registry of the packages in this source
-packages/general/                       the discipline packages
-  test-strategy.md
-  go-engineering.md
-install-profiles/
-  engineering-discipline-core.md        bundles the packages for installation
+```text
+packs/
+  go-engineering/
+    pack.json
+    records/
+  test-strategy/
+    pack.json
+    records/
 ```
 
-## How the pieces fit together
+[`neutral.go-engineering`](packs/go-engineering/pack.json) decomposes Go
+engineering guidance into independently readable records for package
+boundaries, package naming and exports, command composition, APIs, dependency
+direction, cancellation, goroutine ownership, errors, tests, fuzzing,
+concurrency, local harnesses, generated artifacts, and agent-authored changes.
 
-1. **`package-manifest.md`** registers each package — its id, source file, and
-   version — so a compiler can resolve them as package source.
-2. An **install profile** under `install-profiles/` selects a substrate
-   (the core methodology) plus a set of packages, and declares where installed
-   methodology, disciplines, and records should live.
-3. The methodology retrieves the relevant **slices** during a run and requires
-   the **proof** each selected slice demands before a unit of work can close.
+[`neutral.test-strategy`](packs/test-strategy/pack.json) decomposes proof
+strategy into independently readable records for proof design, test-family
+selection, verification lanes, malformed inputs, replay, races, fuzzing,
+properties, models, differential testing, API contracts, integration, smoke,
+release evidence, and freshness.
 
-## Status
+Each `pack.json` is machine-readable. It inventories every record by stable ID,
+path, revision, source digest, and semantic digest, then declares curated Sets
+as exact record-ID lists. The manifest digest binds the complete inventory and
+Set definitions.
 
-Both packages are at `0.1.0` — initial production-oriented seeds. They
-intentionally stay broad and reusable, leaving target-specific promises,
-schemas, names, and gates to each target's semantic authority.
+## Using a Pack
+
+1. Choose one exact Pack version and manifest digest.
+2. Inspect a curated Set or choose individual records using ordinary judgment.
+3. Copy the selected exact record bytes into the target's
+   `records/discipline/` root.
+4. Record the Pack provenance and exact adopted records in the target's
+   Discipline Registry.
+5. Configure target-owned Work Types to make relevant adopted records easy to
+   discover.
+6. Commit and validate the target-local result through the target's normal
+   governed change path.
+
+After adoption, Lifecycle reads only the target-tracked records and Registry.
+It never needs this repository, a sibling checkout, a package manager, or the
+network during Delivery. Upstream Pack changes do not flow into a target until
+the target explicitly adopts them.
+
+An agent should normally receive only a compact notice that applicable adopted
+Discipline exists and where its exact projected copy can be read. Packs are
+split so the agent can read the few relevant records instead of receiving a
+large general handbook.
+
+## Authoring Principles
+
+A Pack Discipline record should:
+
+- stand on its own without a hidden parent document;
+- address one coherent practice concern;
+- state when it helps and when it does not;
+- offer guidance rather than prescribe target-specific product choices;
+- provide review questions or possible verification without claiming that the
+  record itself proves compliance;
+- remain useful when selected alone; and
+- keep target-specific architecture, commands, thresholds, and release policy
+  in the target that owns them.
+
+Composition remains intentionally simple. Sets are maintainer-curated examples,
+and founder-developers use ordinary judgment when combining records or Packs.
+This repository has no dependency solver, conflict engine, automatic chooser,
+or compatibility layer for the retired format.
+
+## Validation
+
+The validator uses only Node.js built-ins:
+
+```sh
+npm run check
+```
+
+After changing record bytes or Set membership, refresh the exact manifest
+digests and rerun validation:
+
+```sh
+npm run update-manifests
+npm run check
+```
+
+`npm test` runs focused validator tests followed by the same complete standalone
+validation. No generated runtime surface, install profile, package manifest,
+dependency cache, or target state is checked in.

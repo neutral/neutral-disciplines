@@ -11,3 +11,6 @@ Desktop.ini
 
 # Claude
 .claude/
+
+# Node.js
+node_modules/
