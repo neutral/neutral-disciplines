@@ -1,0 +1,108 @@
+{
+  "schema": "intent.discipline-pack-manifest.v2",
+  "pack": {
+    "id": "neutral.test-strategy",
+    "version": "0.1.0",
+    "publisher": "neutral",
+    "sourceDigest": "sha256:d951c02242bf3347b36f0e853ff65e3964ea47cfd81b3b1b882929223e1e0537",
+    "catalogDigest": "sha256:ee63eb02ef7118896f43be7e6527bd1a8290735142c99686085747344374d0b2",
+    "connectionsDigest": "sha256:e8dccf4b4bce7ece1f0cec1701145a3890a16de28edb7722bdfe8d46414b0c25"
+  },
+  "processing": {
+    "contract": "intent.processing.v2",
+    "knowledgeRecordSchema": "urn:intent:schema:knowledge-record:v2"
+  },
+  "records": [
+    {
+      "id": "discipline.neutral.test-strategy.api-contract-testing",
+      "path": "records/api-contract-testing.md",
+      "sourceDigest": "sha256:7ec70f54e06e7438bf9409e5ec6372cf2f7eb0c53fc4c24543063fc4756b67c7",
+      "semanticDigest": "sha256:3bae1d1875d7d7bc5c08600b54ffaec1cf556c0658bed2d3d1ca10ab44c5ce4f"
+    },
+    {
+      "id": "discipline.neutral.test-strategy.differential-testing",
+      "path": "records/differential-testing.md",
+      "sourceDigest": "sha256:3195eff76617dbcb8260addf6bbcb3305de4c8d98b89ac55086952a1dec242e2",
+      "semanticDigest": "sha256:c74324e0cd41b96f6e67fe8f019a108f5c1b83b314a63acce0826ee78466d5a1"
+    },
+    {
+      "id": "discipline.neutral.test-strategy.evidence-freshness",
+      "path": "records/evidence-freshness.md",
+      "sourceDigest": "sha256:6860af31a57ebf558edd2da4d9c68e4048f97c7ca980b297a709155aafcfb091",
+      "semanticDigest": "sha256:31d4ccd732f3c9b5661e522186a43f3dc17d4e0272ca8a2bb76a3d5f09806858"
+    },
+    {
+      "id": "discipline.neutral.test-strategy.fuzz-testing",
+      "path": "records/fuzz-testing.md",
+      "sourceDigest": "sha256:47aed5cb6b6bf5ec6d25484716362f2e55d33a15e7f8492bc0087004c4334b56",
+      "semanticDigest": "sha256:988ce738a3e72903d86ccea4227ad191bb1baab3f261fba32af7bdc91bf2964f"
+    },
+    {
+      "id": "discipline.neutral.test-strategy.integration-testing",
+      "path": "records/integration-testing.md",
+      "sourceDigest": "sha256:1f652e23f395e499b49acf44785418ff8495474a7021a5c12965add03cfc09d5",
+      "semanticDigest": "sha256:1c5b99d0bcb43c3303f726ef4782cdab16e00fcc74d10dff0336ae79ce7b31c2"
+    },
+    {
+      "id": "discipline.neutral.test-strategy.malformed-input",
+      "path": "records/malformed-input.md",
+      "sourceDigest": "sha256:9bf770d08f4674ac679c7d3cc77a1a9bd330157f62a9cddc86c345fc053d1312",
+      "semanticDigest": "sha256:5737b0897f9195ed1df1bddf90fc58590048066bd35598f13ca79d8e5a7a7aaf"
+    },
+    {
+      "id": "discipline.neutral.test-strategy.model-based-testing",
+      "path": "records/model-based-testing.md",
+      "sourceDigest": "sha256:473a0439b0d2b6b26a3d75d1ad684cbb8fd8300546d4289169623a16951deb86",
+      "semanticDigest": "sha256:c8308a6a5a415629368cbd2c8baacde089eaf48f532eee2c71bae830549643d8"
+    },
+    {
+      "id": "discipline.neutral.test-strategy.proof-obligation-design",
+      "path": "records/proof-obligation-design.md",
+      "sourceDigest": "sha256:e38d35ec9a86764899739b737480d414657b52c8e2440b31748c11674c8d2c1b",
+      "semanticDigest": "sha256:14d493c8f2abe9a95e9105618a93f04db3a6beca0b69347165c630f39ae42207"
+    },
+    {
+      "id": "discipline.neutral.test-strategy.property-testing",
+      "path": "records/property-testing.md",
+      "sourceDigest": "sha256:07ed9a2bf09738981ef43cb9ff9081d320b86378f6da8b3438905012398691a5",
+      "semanticDigest": "sha256:2916c57978daef2b074a44777c0ac9dec3b6ad3c8f1b59a27e77a970fede3347"
+    },
+    {
+      "id": "discipline.neutral.test-strategy.publication-races",
+      "path": "records/publication-races.md",
+      "sourceDigest": "sha256:ac531cd822ccf8ffa3363cd90b0920d2627b64037b86f86fb87d0e7e3de0a698",
+      "semanticDigest": "sha256:6d47fa4d1e707c9d937da1aefa37ba82510bc4f78f44c77ed3b47275a08130bc"
+    },
+    {
+      "id": "discipline.neutral.test-strategy.release-evidence",
+      "path": "records/release-evidence.md",
+      "sourceDigest": "sha256:7de7fd63932f662724a0c4906850fc10b483c4141e999d666f9a07e536d8b91a",
+      "semanticDigest": "sha256:64f834b70f6668edb2ba33532ede06d98040adf88d603fd2f28e3f338758339c"
+    },
+    {
+      "id": "discipline.neutral.test-strategy.restart-replay",
+      "path": "records/restart-replay.md",
+      "sourceDigest": "sha256:a6d84a4efc9022243e616703590dcd903af1752c17588929dba668c4a121cd47",
+      "semanticDigest": "sha256:bd9c02a2e71a67075add9817f3d9f4420cab7d80b0be8da4ec911996e92a9129"
+    },
+    {
+      "id": "discipline.neutral.test-strategy.smoke-testing",
+      "path": "records/smoke-testing.md",
+      "sourceDigest": "sha256:64e2c84e962ca6702cd92c87c525f96e5d66ea7622fb9341f57f4abb9124800d",
+      "semanticDigest": "sha256:6c374bea52ae413dcb10caed368a3d420bba33f98b40b117a310bf93fca02c55"
+    },
+    {
+      "id": "discipline.neutral.test-strategy.test-family-selection",
+      "path": "records/test-family-selection.md",
+      "sourceDigest": "sha256:0dd4d2b931cdf3f565e02b560ae7f5dfb37cff418888579d980607f1a1a70693",
+      "semanticDigest": "sha256:555e89e28e8bbffc3dea9a4aad2595d3494d92e799018f815510f5b6a7a293be"
+    },
+    {
+      "id": "discipline.neutral.test-strategy.verification-lanes",
+      "path": "records/verification-lanes.md",
+      "sourceDigest": "sha256:9ca4d0c36de7a44bfbb3ebb02a9c762b4d3421fdf9858ea41da49dc99431c4ec",
+      "semanticDigest": "sha256:d1f887a4d25c4319cd96911e6b68df785b8703cbec91c587728d53048ec06151"
+    }
+  ],
+  "digest": "sha256:9d6dd395eab6e6df08117c9a74aa7630bb957e07d6ff1a208bdf4ff11c240e42"
+}

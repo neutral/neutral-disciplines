@@ -1,0 +1,170 @@
+{
+  "schema": "intent.catalog.v1",
+  "sources": [],
+  "records": [
+    {
+      "record": "discipline.neutral.go-engineering.agent-authored-changes",
+      "owners": [
+        "neutral"
+      ],
+      "tags": [
+        "agents",
+        "go",
+        "maintainability",
+        "review"
+      ]
+    },
+    {
+      "record": "discipline.neutral.go-engineering.command-composition",
+      "owners": [
+        "neutral"
+      ],
+      "tags": [
+        "cli",
+        "go",
+        "runtime",
+        "startup"
+      ]
+    },
+    {
+      "record": "discipline.neutral.go-engineering.concurrency-determinism",
+      "owners": [
+        "neutral"
+      ],
+      "tags": [
+        "concurrency",
+        "determinism",
+        "go",
+        "race"
+      ]
+    },
+    {
+      "record": "discipline.neutral.go-engineering.context-cancellation",
+      "owners": [
+        "neutral"
+      ],
+      "tags": [
+        "cancellation",
+        "context",
+        "go",
+        "io"
+      ]
+    },
+    {
+      "record": "discipline.neutral.go-engineering.dependency-direction",
+      "owners": [
+        "neutral"
+      ],
+      "tags": [
+        "dependencies",
+        "go",
+        "interfaces"
+      ]
+    },
+    {
+      "record": "discipline.neutral.go-engineering.error-contracts",
+      "owners": [
+        "neutral"
+      ],
+      "tags": [
+        "errors",
+        "go",
+        "recovery"
+      ]
+    },
+    {
+      "record": "discipline.neutral.go-engineering.fuzzing",
+      "owners": [
+        "neutral"
+      ],
+      "tags": [
+        "fuzzing",
+        "go",
+        "parsers",
+        "testing"
+      ]
+    },
+    {
+      "record": "discipline.neutral.go-engineering.generated-artifacts",
+      "owners": [
+        "neutral"
+      ],
+      "tags": [
+        "codegen",
+        "generated",
+        "go"
+      ]
+    },
+    {
+      "record": "discipline.neutral.go-engineering.goroutine-lifecycle",
+      "owners": [
+        "neutral"
+      ],
+      "tags": [
+        "channels",
+        "concurrency",
+        "go",
+        "goroutines",
+        "shutdown"
+      ]
+    },
+    {
+      "record": "discipline.neutral.go-engineering.local-harnesses",
+      "owners": [
+        "neutral"
+      ],
+      "tags": [
+        "go",
+        "harness",
+        "scripts",
+        "tooling"
+      ]
+    },
+    {
+      "record": "discipline.neutral.go-engineering.package-boundaries",
+      "owners": [
+        "neutral"
+      ],
+      "tags": [
+        "go",
+        "modules",
+        "packages"
+      ]
+    },
+    {
+      "record": "discipline.neutral.go-engineering.package-naming-and-exported-contracts",
+      "owners": [
+        "neutral"
+      ],
+      "tags": [
+        "api",
+        "go",
+        "naming",
+        "packages"
+      ]
+    },
+    {
+      "record": "discipline.neutral.go-engineering.public-api-contracts",
+      "owners": [
+        "neutral"
+      ],
+      "tags": [
+        "api",
+        "contracts",
+        "exports",
+        "go"
+      ]
+    },
+    {
+      "record": "discipline.neutral.go-engineering.table-driven-testing",
+      "owners": [
+        "neutral"
+      ],
+      "tags": [
+        "go",
+        "table-tests",
+        "testing"
+      ]
+    }
+  ]
+}

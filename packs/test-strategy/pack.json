@@ -1,120 +1,10 @@
 {
-  "schema": "lifecycle.discipline-pack.v1",
+  "schema": "intent.discipline-pack.v2",
   "id": "neutral.test-strategy",
   "title": "Test Strategy",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "publisher": "neutral",
-  "contract": {
-    "specificationRevision": "lifecycle.foundation.1.0.0-rc.9",
-    "knowledgeRecordSchema": "urn:lifecycle:schema:knowledge-record:v2"
-  },
-  "records": [
-    {
-      "id": "discipline.neutral.test-strategy.api-contract-testing",
-      "path": "records/api-contract-testing.md",
-      "revision": 1,
-      "sourceDigest": "sha256:e1d980593d0a56e0dc3261e21abc7e6f1b511fcecad32ba29719178011116108",
-      "semanticDigest": "sha256:d6767cb68e00fba32927e3092427331eb8df47d73128cd256736f2fef4c42ab6"
-    },
-    {
-      "id": "discipline.neutral.test-strategy.differential-testing",
-      "path": "records/differential-testing.md",
-      "revision": 1,
-      "sourceDigest": "sha256:f07d0bfa6cf9c76df8f7ad2dbed5018d327fc893561c25a803cd82323969f8b1",
-      "semanticDigest": "sha256:ea85f8cb0f15b209f4009ce130d19fa3ac596989405e41027baf1e86286cc6a9"
-    },
-    {
-      "id": "discipline.neutral.test-strategy.evidence-freshness",
-      "path": "records/evidence-freshness.md",
-      "revision": 1,
-      "sourceDigest": "sha256:219e2d3ffd1589e07a9b0c6f615c6aff4eeeefc9f192942dda87b9e7122b7a63",
-      "semanticDigest": "sha256:7129e182284c8da1b3c1ff7181d6582384826db4f7698b5469228058df60d153"
-    },
-    {
-      "id": "discipline.neutral.test-strategy.fuzz-testing",
-      "path": "records/fuzz-testing.md",
-      "revision": 1,
-      "sourceDigest": "sha256:ba37b9728086a28d8979226059e2d72c90bbc76bf0f80f2f73d65af400d80106",
-      "semanticDigest": "sha256:a69c54a92ca2725d2ef27e2e92364a37e1999e3987a698396a4f22bc1a1ab262"
-    },
-    {
-      "id": "discipline.neutral.test-strategy.integration-testing",
-      "path": "records/integration-testing.md",
-      "revision": 1,
-      "sourceDigest": "sha256:6073c5504ba88b16549cf55fc3e7f26f03e0ece230953413b247a6a02da02d58",
-      "semanticDigest": "sha256:2f03f841986d07e6687537a9ce532dee4cf1f62f8dd9007f165e473174dde835"
-    },
-    {
-      "id": "discipline.neutral.test-strategy.malformed-input",
-      "path": "records/malformed-input.md",
-      "revision": 1,
-      "sourceDigest": "sha256:5de25c84e15693f841cab186a9a41d6e8d360fa3dd33aa7b9437afed53e08cac",
-      "semanticDigest": "sha256:5b6fbd3d4dd31e1ce9b613655935ad68f92bb5241904542e17bcb91e122acc8f"
-    },
-    {
-      "id": "discipline.neutral.test-strategy.model-based-testing",
-      "path": "records/model-based-testing.md",
-      "revision": 1,
-      "sourceDigest": "sha256:ffd93a401aeccba206bdc7e225ff77b5948faac7526ef6acc83bac97e5ddb36c",
-      "semanticDigest": "sha256:5dd79f1e32f3e86da0f9281c1d19d90acfe4d49b62f1e58811498a1e76e0321e"
-    },
-    {
-      "id": "discipline.neutral.test-strategy.proof-obligation-design",
-      "path": "records/proof-obligation-design.md",
-      "revision": 1,
-      "sourceDigest": "sha256:61397a999a797d6f9777528f669347a16916bc6446a0aaaa4226a11cda2f5cf3",
-      "semanticDigest": "sha256:898d1973a412b440c14ff0d5b7d31678b94744f659567ce7cc55152d058da707"
-    },
-    {
-      "id": "discipline.neutral.test-strategy.property-testing",
-      "path": "records/property-testing.md",
-      "revision": 1,
-      "sourceDigest": "sha256:d92372b08920709b50c889d0bc68e6201e61e63c601e74dfad075e0a14ce2406",
-      "semanticDigest": "sha256:a759b8eba983bedeff0fb0eb567a044d9b99deae33eba3e34546502e5887c635"
-    },
-    {
-      "id": "discipline.neutral.test-strategy.publication-races",
-      "path": "records/publication-races.md",
-      "revision": 1,
-      "sourceDigest": "sha256:326c285337cfd455e2a9e41b1259b7062f28c76e3e024ce87bce3274e3b22e9c",
-      "semanticDigest": "sha256:76b7ea4a4a01aea25be5b2615a8ce5b6fc171247b23c43c46be4dd6b84caf9c3"
-    },
-    {
-      "id": "discipline.neutral.test-strategy.release-evidence",
-      "path": "records/release-evidence.md",
-      "revision": 1,
-      "sourceDigest": "sha256:c8714911a7769de2e869f9c0293fa00cd42ffdd30932e3efecce0cf1c7a03b66",
-      "semanticDigest": "sha256:c13fe3dd302ff84eaeba386965321a0baa14a46295e81080734a2bfb7cb98624"
-    },
-    {
-      "id": "discipline.neutral.test-strategy.restart-replay",
-      "path": "records/restart-replay.md",
-      "revision": 1,
-      "sourceDigest": "sha256:36b38b416af4851545e58b307c081bf0fdeee489e905678167dca00aad42555c",
-      "semanticDigest": "sha256:12094daa73ee5fa774d3ea1c648f7188a4c30df91c6e1d4dc805d3f9178a2693"
-    },
-    {
-      "id": "discipline.neutral.test-strategy.smoke-testing",
-      "path": "records/smoke-testing.md",
-      "revision": 1,
-      "sourceDigest": "sha256:21aee64ada5c34264ec5c32d85276827feba67d79ce87a9a0c2fd33f58ec22ae",
-      "semanticDigest": "sha256:74409a4934c27c7953564b6013883ef94ed02941003920ed3321e983d7dac68c"
-    },
-    {
-      "id": "discipline.neutral.test-strategy.test-family-selection",
-      "path": "records/test-family-selection.md",
-      "revision": 1,
-      "sourceDigest": "sha256:d8268217d2dde6ecc9c05698e7981442c7ddf2d4d10819fcd0842c97a821d285",
-      "semanticDigest": "sha256:e5d5c81e283347ed15ded05b61c1ba08343dd86b04f8d5003cadc50eb2416002"
-    },
-    {
-      "id": "discipline.neutral.test-strategy.verification-lanes",
-      "path": "records/verification-lanes.md",
-      "revision": 1,
-      "sourceDigest": "sha256:b032217c05c42f76448bf8d2a586dd41f1bae586982bfc0a539b29a009567fb8",
-      "semanticDigest": "sha256:abcc922d4a62afce2f223f7278b7f7b1f24ec667d540bb82e68133e41f456d7b"
-    }
-  ],
+  "recordSchema": "urn:intent:schema:knowledge-record:v2",
   "sets": [
     {
       "id": "neutral.test-strategy.api-boundary",
@@ -181,6 +71,5 @@
         "discipline.neutral.test-strategy.verification-lanes"
       ]
     }
-  ],
-  "digest": "sha256:1e2911c9ecf5e5ff2314c8892a4521c47dd396e93a62e1de4c61df5cda2d0dfb"
+  ]
 }

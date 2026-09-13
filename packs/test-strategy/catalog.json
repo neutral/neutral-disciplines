@@ -1,0 +1,178 @@
+{
+  "schema": "intent.catalog.v1",
+  "sources": [],
+  "records": [
+    {
+      "record": "discipline.neutral.test-strategy.api-contract-testing",
+      "owners": [
+        "neutral"
+      ],
+      "tags": [
+        "api",
+        "contracts",
+        "testing"
+      ]
+    },
+    {
+      "record": "discipline.neutral.test-strategy.differential-testing",
+      "owners": [
+        "neutral"
+      ],
+      "tags": [
+        "compatibility",
+        "differential",
+        "testing"
+      ]
+    },
+    {
+      "record": "discipline.neutral.test-strategy.evidence-freshness",
+      "owners": [
+        "neutral"
+      ],
+      "tags": [
+        "evidence",
+        "freshness",
+        "proof-gaps",
+        "testing"
+      ]
+    },
+    {
+      "record": "discipline.neutral.test-strategy.fuzz-testing",
+      "owners": [
+        "neutral"
+      ],
+      "tags": [
+        "fuzzing",
+        "property",
+        "testing"
+      ]
+    },
+    {
+      "record": "discipline.neutral.test-strategy.integration-testing",
+      "owners": [
+        "neutral"
+      ],
+      "tags": [
+        "containers",
+        "integration",
+        "services",
+        "testing"
+      ]
+    },
+    {
+      "record": "discipline.neutral.test-strategy.malformed-input",
+      "owners": [
+        "neutral"
+      ],
+      "tags": [
+        "negative-testing",
+        "parsers",
+        "security",
+        "testing"
+      ]
+    },
+    {
+      "record": "discipline.neutral.test-strategy.model-based-testing",
+      "owners": [
+        "neutral"
+      ],
+      "tags": [
+        "model",
+        "state-machine",
+        "testing"
+      ]
+    },
+    {
+      "record": "discipline.neutral.test-strategy.proof-obligation-design",
+      "owners": [
+        "neutral"
+      ],
+      "tags": [
+        "evidence",
+        "proof",
+        "testing"
+      ]
+    },
+    {
+      "record": "discipline.neutral.test-strategy.property-testing",
+      "owners": [
+        "neutral"
+      ],
+      "tags": [
+        "invariants",
+        "property",
+        "testing"
+      ]
+    },
+    {
+      "record": "discipline.neutral.test-strategy.publication-races",
+      "owners": [
+        "neutral"
+      ],
+      "tags": [
+        "concurrency",
+        "publication",
+        "race",
+        "testing"
+      ]
+    },
+    {
+      "record": "discipline.neutral.test-strategy.release-evidence",
+      "owners": [
+        "neutral"
+      ],
+      "tags": [
+        "evidence",
+        "release",
+        "testing"
+      ]
+    },
+    {
+      "record": "discipline.neutral.test-strategy.restart-replay",
+      "owners": [
+        "neutral"
+      ],
+      "tags": [
+        "durability",
+        "recovery",
+        "replay",
+        "testing"
+      ]
+    },
+    {
+      "record": "discipline.neutral.test-strategy.smoke-testing",
+      "owners": [
+        "neutral"
+      ],
+      "tags": [
+        "deployment",
+        "smoke",
+        "testing"
+      ]
+    },
+    {
+      "record": "discipline.neutral.test-strategy.test-family-selection",
+      "owners": [
+        "neutral"
+      ],
+      "tags": [
+        "coverage",
+        "proof",
+        "test-selection",
+        "testing"
+      ]
+    },
+    {
+      "record": "discipline.neutral.test-strategy.verification-lanes",
+      "owners": [
+        "neutral"
+      ],
+      "tags": [
+        "ci",
+        "feedback",
+        "testing",
+        "verification"
+      ]
+    }
+  ]
+}

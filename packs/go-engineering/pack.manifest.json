@@ -1,0 +1,102 @@
+{
+  "schema": "intent.discipline-pack-manifest.v2",
+  "pack": {
+    "id": "neutral.go-engineering",
+    "version": "0.1.0",
+    "publisher": "neutral",
+    "sourceDigest": "sha256:f9972bbc178739d3cf19000c7b6464ab07adadf1918e154b6818d58c085ed5ac",
+    "catalogDigest": "sha256:0b411178c866955ab96172cf782e756cf25c466e6bdcdad7edf049afeac9ea66",
+    "connectionsDigest": "sha256:e8dccf4b4bce7ece1f0cec1701145a3890a16de28edb7722bdfe8d46414b0c25"
+  },
+  "processing": {
+    "contract": "intent.processing.v2",
+    "knowledgeRecordSchema": "urn:intent:schema:knowledge-record:v2"
+  },
+  "records": [
+    {
+      "id": "discipline.neutral.go-engineering.agent-authored-changes",
+      "path": "records/agent-authored-changes.md",
+      "sourceDigest": "sha256:a7af299e0c6b920170133011268f93ab7648f1861453ccc9167aadaf000512a2",
+      "semanticDigest": "sha256:dab71cd977f61ed52c16cd60493f58ce74a9b05717826c26eec00c3d1a863c2f"
+    },
+    {
+      "id": "discipline.neutral.go-engineering.command-composition",
+      "path": "records/command-composition.md",
+      "sourceDigest": "sha256:e4f36e5d31db894675252d499e70fb37addc8b199d1a165e6718ef283f1a80c6",
+      "semanticDigest": "sha256:04dcf8689e4c472c0cd3ee67818ee49c2293df8adaf32e8aa3ad703c813f8213"
+    },
+    {
+      "id": "discipline.neutral.go-engineering.concurrency-determinism",
+      "path": "records/concurrency-determinism.md",
+      "sourceDigest": "sha256:4ac353e94ac355ae658e702e48b84b2cd16e8f0bddb0b08ca0f08c3ae7d1c230",
+      "semanticDigest": "sha256:c5004f3047b99a951e292d1cf8489c69b58e5697f6ab2747ed66f3c269aad241"
+    },
+    {
+      "id": "discipline.neutral.go-engineering.context-cancellation",
+      "path": "records/context-cancellation.md",
+      "sourceDigest": "sha256:6a2de056a84d059d65992ce8929044fe506149fcad52f8ee32805ce9d43023ca",
+      "semanticDigest": "sha256:6d3946ca383deab110507bc45d3813418d072a175a36a322aed3dac9db698b52"
+    },
+    {
+      "id": "discipline.neutral.go-engineering.dependency-direction",
+      "path": "records/dependency-direction.md",
+      "sourceDigest": "sha256:dfe24a94974d253bc22bd7f295411402508735e51a885827dfbd449d5df41f70",
+      "semanticDigest": "sha256:f447fcea8190cbd312230b99eee4bed56bfc3f5109e6be11b0b4c2a30f787472"
+    },
+    {
+      "id": "discipline.neutral.go-engineering.error-contracts",
+      "path": "records/error-contracts.md",
+      "sourceDigest": "sha256:1a35ce1179bc613091463309ad317050d8716aeae2800eca99354b9a39d8bd34",
+      "semanticDigest": "sha256:09f021aa456f16483339166d4e4d38ac6991c93ee59fe884d3d599bb3d16f8a3"
+    },
+    {
+      "id": "discipline.neutral.go-engineering.fuzzing",
+      "path": "records/fuzzing.md",
+      "sourceDigest": "sha256:478e24dc3a01cf4345fa4dd8e6ede5202e9b3078a07a84022de05cb81ff8d26e",
+      "semanticDigest": "sha256:9c0f05423714f1838b5d80446c63bb24b8a8cbfc5a75652a3d365ec6ff12ba63"
+    },
+    {
+      "id": "discipline.neutral.go-engineering.generated-artifacts",
+      "path": "records/generated-artifacts.md",
+      "sourceDigest": "sha256:2f8cad428dabf775b6de85d247b1a65e973289f09d3a1f7356d8e6232f04b153",
+      "semanticDigest": "sha256:5e4a51b242c3a2a73f01db1d0be82f208f6a58e9f8b692a63dea2bbf522eebb0"
+    },
+    {
+      "id": "discipline.neutral.go-engineering.goroutine-lifecycle",
+      "path": "records/goroutine-lifecycle.md",
+      "sourceDigest": "sha256:fb974b7208fae1eded854cc9df3fc38976d77fc8e5c3f378561cb140fe3c1ef4",
+      "semanticDigest": "sha256:95cd4df800ea258fde21b44d4456e59653aa47aaa17caf721882ee68a85bb18d"
+    },
+    {
+      "id": "discipline.neutral.go-engineering.local-harnesses",
+      "path": "records/local-harnesses.md",
+      "sourceDigest": "sha256:d2b148ec170beb5d8e21fbe882abf5973c80d24f7daff740b7ecf71aae30c4ac",
+      "semanticDigest": "sha256:10b05b935b42d5099f59b42bac1a665d81c0a43874f4ebf3e413ac6aacfc4cec"
+    },
+    {
+      "id": "discipline.neutral.go-engineering.package-boundaries",
+      "path": "records/package-boundaries.md",
+      "sourceDigest": "sha256:400fc986daf5beb3158632408ce949033e3d8cfeae51c0d1d894729c5b71133d",
+      "semanticDigest": "sha256:cf2f49f117da0e1fcac7b0176749e85328b40f351a77cc204c5b5346c67bfddc"
+    },
+    {
+      "id": "discipline.neutral.go-engineering.package-naming-and-exported-contracts",
+      "path": "records/package-naming-and-exported-contracts.md",
+      "sourceDigest": "sha256:aed32c9c082c2a320471dff27df0929ef9b0e94c21a24f11e4daa11699103bc4",
+      "semanticDigest": "sha256:00743a8184234eefd4d08a230d377d3394d34f160fbfd5f0d6537d3e157504fe"
+    },
+    {
+      "id": "discipline.neutral.go-engineering.public-api-contracts",
+      "path": "records/public-api-contracts.md",
+      "sourceDigest": "sha256:bbc2f33941ae7173b5165d2e1f8a77487a48217771c47e44baef3caa62539521",
+      "semanticDigest": "sha256:10fe13c6b524a9a4c74b8912c061d256c6b0187c63be85659b344f6546fe65cf"
+    },
+    {
+      "id": "discipline.neutral.go-engineering.table-driven-testing",
+      "path": "records/table-driven-testing.md",
+      "sourceDigest": "sha256:3b737ad3e24cdcee6efbe0c7c2a0f10b58a2a669ed0d550298d890470b2ef991",
+      "semanticDigest": "sha256:47a9fe49416bc2953c3830a07cea77169130d31c7667471352621e3e68023721"
+    }
+  ],
+  "digest": "sha256:144e14ff827eca340fd27707e2f341334bd9f22958c32d2d8fbe7af8bf873de6"
+}

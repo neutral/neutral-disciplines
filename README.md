@@ -1,115 +1,90 @@
-# Lifecycle Discipline Packs
+# Neutral Disciplines
 
-This repository publishes reusable engineering guidance as Discipline Packs.
-Each Pack divides a broad practice area into small records that projects can
-choose independently. Projects remain responsible for their own requirements
-and decisions.
+Neutral Disciplines provides reusable advisory practices for software engineering.
+Each practice is an independently readable Intent Discipline record. Packs collect
+related practices, and curated Sets offer useful starting selections.
 
-## Vocabulary
+| Pack | Focus |
+| --- | --- |
+| [Go Engineering](packs/go-engineering/pack.json) | Package design, exported contracts, cancellation, concurrency, errors, testing, and agent-authored changes. |
+| [Test Strategy](packs/test-strategy/pack.json) | Verification design, test selection, malformed inputs, properties, replay, integration, and release evidence. |
 
-- A **Pack** is a versioned distribution unit with one exact manifest.
-- A **Pack Discipline record** is a full `lifecycle.knowledge-record.v2`
-  Discipline record authored in a Pack.
-- An **Adopted Discipline record** is a Pack Discipline record copied into a
-  target's `records/discipline/` root and registered with exact provenance in
-  that target's Discipline Registry.
-- A **Set** is a curated, named list of records in one Pack. It is a convenient
-  starting point, not another authority layer.
-- A **Work Type** is target-owned configuration describing work the target
-  actually performs. Packs do not infer or configure target Work Types.
+Both Packs use version `0.1.0` and publisher `neutral`. Their
+records keep stable `discipline.neutral.*` IDs so selections remain precise.
 
-Discipline is light-touch supporting Knowledge. It gives founder-developers and
-agents durable practice guidance, useful review questions, and pointers to
-possible verification. A target uses that guidance when useful and remains the
-source of its own requirements and decisions.
+## Use a Pack
 
-## Packs
+Choose practices that fit the target repository and current work. Read each
+practice's applicability, guidance, and verification suggestions. Sets can overlap;
+individual records remain independently selectable.
 
-```text
-packs/
-  go-engineering/
-    pack.json
-    records/
-  test-strategy/
-    pack.json
-    records/
-```
+Use [Intent](https://github.com/neutral/intent) to inspect the supplied Pack and
+prepare an adoption proposal. Select the exact Pack version and source revision,
+review the proposed records and target configuration, then apply the selected
+changes. The target owns its Work Types, requirements, Checks, and adoption choices.
 
-[`neutral.go-engineering`](packs/go-engineering/pack.json) decomposes Go
-engineering guidance into independently readable records for package
-boundaries, package naming and exports, command composition, APIs, dependency
-direction, cancellation, goroutine ownership, errors, tests, fuzzing,
-concurrency, local harnesses, generated artifacts, and agent-authored changes.
+The [IntentForge portfolio](https://github.com/neutral/intentforge) explains how
+Intent, Atlas, and Forge support development. These Packs supply optional advice
+for projects using Intent. Mandatory practices belong in the target's software
+definitions and Checks.
 
-[`neutral.test-strategy`](packs/test-strategy/pack.json) decomposes proof
-strategy into independently readable records for proof design, test-family
-selection, verification lanes, malformed inputs, replay, races, fuzzing,
-properties, models, differential testing, API contracts, integration, smoke,
-release evidence, and freshness.
+## File layout
 
-Each `pack.json` is machine-readable. It inventories every record by stable ID,
-path, revision, source digest, and semantic digest, then declares curated Sets
-as exact record-ID lists. The manifest digest binds the complete inventory and
-Set definitions.
+Each directory under `packs/` contains:
 
-## Using a Pack
+- `pack.json`: Pack identity, version, publisher, and curated Sets;
+- `catalog.json`: record ownership and retrieval metadata;
+- `connections.json`: advisory references and relationships;
+- `records/`: current Discipline Markdown;
+- `pack.manifest.json`: generated fingerprints for the supplied Pack files.
 
-1. Choose one exact Pack version and manifest digest.
-2. Inspect a curated Set or choose individual records using ordinary judgment.
-3. Copy the selected exact record bytes into the target's
-   `records/discipline/` root.
-4. Record the Pack provenance and exact adopted records in the target's
-   Discipline Registry.
-5. Configure target-owned Work Types to make relevant adopted records easy to
-   discover.
-6. Commit and validate the target-local result through the target's normal
-   governed change path.
+The Packs use Intent format 2. Local Markdown headers identify each record;
+Markdown carries its practice meaning and global files carry shared metadata.
+The Intent Library owns parsing, validation, and fingerprint computation.
 
-After adoption, Lifecycle reads only the target-tracked records and Registry.
-It never needs this repository, a sibling checkout, a package manager, or the
-network during Delivery. Upstream Pack changes do not flow into a target until
-the target explicitly adopts them.
+## Check the catalog
 
-An agent should normally receive only a compact notice that applicable adopted
-Discipline exists and where its exact projected copy can be read. Packs are
-split so the agent can read the few relevant records instead of receiving a
-large general handbook.
-
-## Authoring Principles
-
-A Pack Discipline record should:
-
-- stand on its own without a hidden parent document;
-- address one coherent practice concern;
-- state when it helps and when it does not;
-- offer guidance rather than prescribe target-specific product choices;
-- provide review questions or possible verification without claiming that the
-  record itself proves compliance;
-- remain useful when selected alone; and
-- keep target-specific architecture, commands, thresholds, and release policy
-  in the target that owns them.
-
-Composition remains intentionally simple. Sets are maintainer-curated examples,
-and founder-developers use ordinary judgment when combining records or Packs.
-This repository has no dependency solver, conflict engine, automatic chooser,
-or compatibility layer for the retired format.
-
-## Validation
-
-The validator uses only Node.js built-ins:
+Use Node.js 24 or newer and npm. From this repository, install the published
+`@neutral/intent@0.1.0` tool and its dependencies from the committed lockfile:
 
 ```sh
+npm ci
 npm run check
+npm test
 ```
 
-After changing record bytes or Set membership, refresh the exact manifest
-digests and rerun validation:
+Validation compares each supplied manifest with its current source files. Review
+any mismatch together with the authored changes. The scripts also accept
+`--intent-module /path/to/module/index.js`; `INTENT_MODULE` selects that module for
+the test suite. These selections identify the installed public Library API.
+
+## Maintain practices
+
+Keep one useful practice in each record. Preserve its ID while its meaning remains
+the same. Update applicability and verification advice together with the practice.
+Review the Pack version and curated Set membership whenever meaning changes.
+
+Preview manifests derived from the intended current files:
 
 ```sh
 npm run update-manifests
-npm run check
+npm run update-manifests -- --pack go-engineering
 ```
 
-`npm test` runs focused validator tests followed by the same complete standalone
-validation. No generated runtime surface, install profile, package manifest,
-dependency cache, or target state is checked in.
+After reviewing the source changes and preview, apply them explicitly:
+
+```sh
+npm run update-manifests -- --write
+npm run check
+npm test
+git diff --check
+```
+
+The updater writes the selected current manifests. Keep commits focused on the
+reviewed practice and Pack changes.
+
+## License
+
+Original Neutral Disciplines material, including both Packs and the repository
+tools, uses [CC0-1.0 OR 0BSD](LICENSE), at the recipient's choice. The complete
+terms are in [CC0 1.0 Universal](LICENSE.CC0-1.0) and [Zero-Clause BSD](LICENSE.0BSD).

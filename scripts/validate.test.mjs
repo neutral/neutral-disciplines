@@ -1,103 +1,184 @@
-import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
-import { resolve } from "node:path";
-import test from "node:test";
-import { fileURLToPath } from "node:url";
-import { canonicalJson, loadManifest, parseDisciplineRecord, selfDigest, validateManifestShape } from "./lib.mjs";
+import assert from 'node:assert/strict';
+import { chmod, cp, mkdtemp, readFile, readdir, rm, symlink, writeFile } from 'node:fs/promises';
+import { join } from 'node:path';
+import { tmpdir } from 'node:os';
+import { fileURLToPath } from 'node:url';
+import test from 'node:test';
+import { loadIntent, validateCatalog, packRoots, openPack, hash } from './lib.mjs';
+import { updateManifests } from './update-manifests.mjs';
 
-const repositoryRoot = resolve(fileURLToPath(new URL("..", import.meta.url)));
+const root = fileURLToPath(new URL('..', import.meta.url));
+const intent = await loadIntent();
+const roots = await packRoots(root);
 
-test("Pack manifests reproduce their self-digests", async () => {
-  for (const path of ["packs/go-engineering/pack.json", "packs/test-strategy/pack.json"]) {
-    const manifest = await loadManifest(resolve(repositoryRoot, path));
-    validateManifestShape(manifest, path);
-    assert.equal(manifest.digest, selfDigest(manifest));
+async function packFiles(pack = roots[0]) {
+  const source = await openPack(pack, intent), files = {};
+  for (const path of ['pack.json', 'catalog.json', 'connections.json', 'pack.manifest.json',
+    ...(await source.list('records')).filter(entry => entry.kind === 'file').map(entry => entry.path)]) {
+    files[path] = await source.read(path, 4194304);
   }
-});
+  return files;
+}
 
-test("a Pack Discipline record is a complete Knowledge record v2", async () => {
-  const path = "packs/go-engineering/records/context-cancellation.md";
-  const parsed = parseDisciplineRecord(await readFile(resolve(repositoryRoot, path)), path);
-  assert.equal(parsed.header.kind, "discipline");
-  assert.equal(parsed.header.spec.practice.length > 0, true);
-  assert.match(parsed.sourceDigest, /^sha256:[0-9a-f]{64}$/u);
-  assert.match(parsed.semanticDigest, /^sha256:[0-9a-f]{64}$/u);
-});
+function changeJson(files, path, change) {
+  const value = intent.parseStrictJson(Buffer.from(files[path]).toString('utf8'));
+  change(value);
+  files[path] = JSON.stringify(value, null, 2) + '\n';
+}
 
-test("Discipline records reject binding relationship forms", async () => {
-  const path = "packs/go-engineering/records/context-cancellation.md";
-  const source = await readFile(resolve(repositoryRoot, path), "utf8");
-  const altered = source.replace(
-    '"relationships": []',
-    '"relationships": [{"type":"requires","target":"discipline.neutral.go-engineering.error-contracts","required":true}]',
-  );
-  assert.throws(
-    () => parseDisciplineRecord(Buffer.from(altered, "utf8"), path),
-    /must be an optional related-to edge/u,
-  );
-});
+async function fixture(t) {
+  const directory = await mkdtemp(join(tmpdir(), 'neutral-disciplines-test-'));
+  t.after(() => rm(directory, { recursive: true, force: true }));
+  await cp(join(root, 'packs'), join(directory, 'packs'), { recursive: true });
+  return directory;
+}
 
-test("strict front matter rejects duplicate object keys", async () => {
-  const path = "packs/go-engineering/records/context-cancellation.md";
-  const source = await readFile(resolve(repositoryRoot, path), "utf8");
-  const altered = source.replace(
-    '"kind": "discipline",',
-    '"kind": "discipline",\n  "kind": "discipline",',
-  );
-  assert.throws(
-    () => parseDisciplineRecord(Buffer.from(altered, "utf8"), path),
-    /duplicate object key "kind"/u,
-  );
-});
+function hasIssue(result, code) {
+  assert.equal(result.valid, false);
+  assert.ok(result.diagnostics.some(issue => issue.code.includes(code)), JSON.stringify(result.diagnostics));
+}
 
-test("Knowledge source members require their complete typed shape", async () => {
-  const path = "packs/go-engineering/records/context-cancellation.md";
-  const source = await readFile(resolve(repositoryRoot, path), "utf8");
-  const altered = source.replace('"sources": []', '"sources": [1]');
-  assert.throws(
-    () => parseDisciplineRecord(Buffer.from(altered, "utf8"), path),
-    /source 0 must be an object/u,
-  );
-});
-
-test("semantic digest canonicalizes unordered Knowledge members", async () => {
-  const path = "packs/go-engineering/records/context-cancellation.md";
-  const source = await readFile(resolve(repositoryRoot, path), "utf8");
-  const sources = [
-    '{"id":"source.a","required":false,"reference":"docs/a.md","revision":null,"digest":null,"role":"research"}',
-    '{"id":"source.z","required":false,"reference":"docs/z.md","revision":null,"digest":null,"role":"policy"}',
-  ];
-  const relationships = [
-    '{"type":"related-to","target":"discipline.neutral.go-engineering.error-contracts","required":false,"scope":"errors"}',
-    '{"type":"related-to","target":"discipline.neutral.go-engineering.package-boundaries","required":false,"scope":"packages"}',
-  ];
-  function orderedRecord(sourceOrder, relationshipOrder, tags) {
-    return source
-      .replace('"sources": []', `"sources": [${sourceOrder.join(",")}]`)
-      .replace('"relationships": []', `"relationships": [${relationshipOrder.join(",")}]`)
-      .replace('"tags": ["cancellation", "context", "go", "io"]', `"tags": ${JSON.stringify(tags)}`);
-  }
-  const canonical = parseDisciplineRecord(Buffer.from(orderedRecord(sources, relationships, ["cancellation", "context", "go", "io"]), "utf8"), path);
-  const unsorted = parseDisciplineRecord(Buffer.from(orderedRecord([...sources].reverse(), [...relationships].reverse(), ["io", "go", "context", "cancellation"]), "utf8"), path);
-  assert.notEqual(canonical.sourceDigest, unsorted.sourceDigest);
-  assert.equal(canonical.semanticDigest, unsorted.semanticDigest);
-  assert.deepEqual(unsorted.header.tags, ["cancellation", "context", "go", "io"]);
-  assert.deepEqual(unsorted.header.sources.map(({ id }) => id), ["source.a", "source.z"]);
-  assert.deepEqual(unsorted.header.relationships.map(({ target }) => target), [
-    "discipline.neutral.go-engineering.error-contracts",
-    "discipline.neutral.go-engineering.package-boundaries",
+test('the installed package validates all 29 records and 9 curated Sets', async () => {
+  const result = await validateCatalog(root, intent);
+  assert.deepEqual(result.packs.map(pack => [pack.id, pack.records, pack.sets.length]), [
+    ['neutral.go-engineering', 14, 4], ['neutral.test-strategy', 15, 5],
   ]);
+  assert.equal(result.records, 29);
+  assert.equal(result.sets, 9);
+  for (const pack of roots) {
+    const built = await intent.buildDisciplinePack(new intent.MemorySource(await packFiles(pack)));
+    assert.equal(built.valid, true, JSON.stringify(built.diagnostics));
+    assert.deepEqual(built.candidateManifest, JSON.parse(JSON.stringify(built.suppliedManifest)));
+  }
 });
 
-test("manifest digest omits only its digest field", () => {
-  const base = { schema: "test", records: [], digest: "sha256:old" };
-  assert.equal(selfDigest(base), selfDigest({ ...base, digest: "sha256:new" }));
-  assert.notEqual(selfDigest(base), selfDigest({ ...base, records: ["changed"] }));
-  assert.equal(canonicalJson({ z: 1, a: 2 }), '{"a":2,"z":1}');
+test('each curated Set produces exact selected adoption bytes and metadata', async () => {
+  for (const pack of roots) {
+    const files = await packFiles(pack), source = new intent.MemorySource(files);
+    const inspected = await intent.validateDisciplinePack(source), definition = inspected.definition;
+    for (const set of definition.sets) {
+      const choices = set.recordIds.map(id => ({ id, packId: definition.id, packVersion: definition.version,
+        path: `intent/disciplines/${pack.name}/${id.split('.').at(-1)}.md` }));
+      const proposal = await intent.proposeDisciplineAdoption(source, {
+        source: `https://github.com/neutral/neutral-disciplines/tree/main/packs/${pack.name}`,
+        revision: inspected.suppliedManifest.digest, choices,
+      });
+      assert.equal(proposal.valid, true, JSON.stringify(proposal.diagnostics));
+      assert.equal(proposal.applied, false);
+      assert.deepEqual(proposal.choices.map(choice => choice.id), set.recordIds);
+      assert.deepEqual(proposal.context.catalog.records.map(record => record.record).sort(), set.recordIds);
+      for (const choice of choices) {
+        const record = inspected.records.find(record => record.header.id === choice.id);
+        assert.equal(hash(proposal.files.find(file => file.path === choice.path).bytes), hash(files[record.path]));
+      }
+    }
+  }
 });
 
-test("canonical JSON matches the runtime number domain", () => {
-  assert.equal(canonicalJson({ fraction: 1.25, negativeZero: -0 }), '{"fraction":1.25,"negativeZero":0}');
-  assert.throws(() => canonicalJson(Number.POSITIVE_INFINITY), /non-finite/u);
-  assert.throws(() => canonicalJson(Number.MAX_SAFE_INTEGER + 1), /unsafe integer/u);
+test('source and global metadata drift leave supplied manifests unchanged and invalid', async () => {
+  for (const mutation of ['record', 'catalog']) {
+    const files = await packFiles(), manifest = hash(files['pack.manifest.json']);
+    if (mutation === 'record') {
+      const path = Object.keys(files).find(path => path.startsWith('records/'));
+      files[path] = Buffer.from(files[path]).toString('utf8') + '\nA changed verification expectation.\n';
+    } else changeJson(files, 'catalog.json', value => value.records[0].tags.push('additional-review'));
+    const result = await intent.validateDisciplinePack(new intent.MemorySource(files));
+    hasIssue(result, 'manifest-mismatch');
+    assert.equal(hash(result.suppliedManifestBytes), manifest);
+  }
+});
+
+test('a corrupted manifest is rejected without replacing expected fingerprints', async () => {
+  const files = await packFiles();
+  changeJson(files, 'pack.manifest.json', value => value.records[0].sourceDigest = `sha256:${'0'.repeat(64)}`);
+  const expected = hash(files['pack.manifest.json']);
+  const result = await intent.validateDisciplinePack(new intent.MemorySource(files));
+  hasIssue(result, 'manifest-digest');
+  assert.equal(hash(result.suppliedManifestBytes), expected);
+});
+
+test('duplicate JSON keys and non-current records fail complete Pack validation', async () => {
+  for (const mutation of ['duplicate-key', 'draft']) {
+    const files = await packFiles(), path = Object.keys(files).find(path => path.startsWith('records/'));
+    const original = Buffer.from(files[path]).toString('utf8');
+    files[path] = mutation === 'duplicate-key'
+      ? original.replace('"kind": "discipline",', '"kind": "discipline", "kind": "discipline",')
+      : original.replace('"status": "current"', '"status": "draft"');
+    const result = await intent.validateDisciplinePack(new intent.MemorySource(files));
+    hasIssue(result, mutation === 'draft' ? 'pack-current' : 'duplicate');
+  }
+});
+
+test('publisher ownership, required navigation and duplicate record identities are rejected', async () => {
+  for (const mutation of ['owner', 'required-edge', 'duplicate-record']) {
+    const files = await packFiles();
+    if (mutation === 'owner') changeJson(files, 'catalog.json', value => value.records[0].owners = ['another-publisher']);
+    if (mutation === 'required-edge') {
+      const catalog = intent.parseStrictJson(Buffer.from(files['catalog.json']).toString('utf8'));
+      changeJson(files, 'connections.json', value => value.relationships.push({ id: 'navigation',
+        record: catalog.records[0].record, type: 'related-to', target: catalog.records[1].record, required: true }));
+    }
+    if (mutation === 'duplicate-record') files['records/duplicate.md'] = files[Object.keys(files).find(path => path.startsWith('records/'))];
+    const result = await intent.validateDisciplinePack(new intent.MemorySource(files));
+    hasIssue(result, mutation === 'owner' ? 'publisher' : mutation === 'duplicate-record' ? 'duplicate' : 'schema');
+  }
+});
+
+test('Sets reject missing members and unordered selections', async () => {
+  for (const mutation of ['missing', 'order']) {
+    const files = await packFiles();
+    changeJson(files, 'pack.json', value => {
+      if (mutation === 'missing') value.sets[0].recordIds.push('discipline.neutral.missing');
+      else value.sets[0].recordIds.reverse();
+    });
+    const result = await intent.validateDisciplinePack(new intent.MemorySource(files));
+    hasIssue(result, mutation === 'missing' ? 'set-member' : 'set-order');
+  }
+});
+
+test('catalog validation refuses executable records and symlinks', async t => {
+  const directory = await fixture(t), records = join(directory, 'packs', roots[0].name, 'records');
+  const name = (await readdir(records))[0], path = join(records, name);
+  await chmod(path, 0o755);
+  await assert.rejects(validateCatalog(directory, intent), /non-executable regular Markdown/);
+  await chmod(path, 0o644);
+  await symlink(name, join(records, 'linked.md'));
+  await assert.rejects(validateCatalog(directory, intent), /non-executable regular Markdown/);
+});
+
+test('manifest preview is read-only and explicit writes repair only the selected current Pack', async t => {
+  const directory = await fixture(t), pack = roots[0].name;
+  const manifestPath = join(directory, 'packs', pack, 'pack.manifest.json');
+  const original = await readFile(manifestPath);
+  const otherPath = join(directory, 'packs', roots[1].name, 'pack.manifest.json');
+  const other = await readFile(otherPath);
+  const catalogPath = join(directory, 'packs', pack, 'catalog.json');
+  const catalog = JSON.parse(await readFile(catalogPath, 'utf8'));
+  catalog.records[0].tags.push('release-review');
+  await writeFile(catalogPath, JSON.stringify(catalog, null, 2) + '\n');
+  await assert.rejects(validateCatalog(directory, intent), /manifest-mismatch/);
+  const preview = await updateManifests(directory, intent, { pack });
+  assert.equal(preview.length, 1);
+  assert.equal(preview[0].changed, true);
+  assert.equal(preview[0].written, false);
+  assert.deepEqual(await readFile(manifestPath), original);
+  const applied = await updateManifests(directory, intent, { pack, write: true });
+  assert.equal(applied[0].written, true);
+  assert.equal((await validateCatalog(directory, intent)).records, 29);
+  assert.deepEqual(await readFile(otherPath), other);
+  assert.deepEqual(await readdir(join(directory, 'packs', pack)),
+    ['catalog.json', 'connections.json', 'pack.json', 'pack.manifest.json', 'records']);
+  assert.equal((await updateManifests(directory, intent, { pack, write: true }))[0].changed, false);
+});
+
+test('manifest updates refuse invalid authored content and unknown Pack selection', async t => {
+  const directory = await fixture(t), pack = roots[0].name;
+  const path = join(directory, 'packs', pack, 'catalog.json');
+  const manifestPath = join(directory, 'packs', pack, 'pack.manifest.json'), original = await readFile(manifestPath);
+  const catalog = JSON.parse(await readFile(path, 'utf8'));
+  catalog.records[0].owners = ['another-publisher'];
+  await writeFile(path, JSON.stringify(catalog));
+  await assert.rejects(updateManifests(directory, intent, { pack, write: true }), /publisher/);
+  assert.deepEqual(await readFile(manifestPath), original);
+  await assert.rejects(updateManifests(directory, intent, { pack: 'missing', write: true }), /unavailable/);
 });

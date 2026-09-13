@@ -1,11 +1,24 @@
 {
-  "name": "lifecycle-discipline-packs",
-  "version": "1.0.0",
+  "name": "neutral-disciplines",
+  "version": "0.1.0",
   "private": true,
   "type": "module",
+  "description": "Reusable advisory Discipline Packs for Intent.",
+  "license": "CC0-1.0 OR 0BSD",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/neutral/neutral-disciplines"
+  },
+  "homepage": "https://github.com/neutral/neutral-disciplines",
+  "engines": {
+    "node": ">=24.0.0"
+  },
   "scripts": {
     "check": "node scripts/validate.mjs",
     "test": "node --test scripts/validate.test.mjs && node scripts/validate.mjs",
     "update-manifests": "node scripts/update-manifests.mjs"
+  },
+  "devDependencies": {
+    "@neutral/intent": "0.1.0"
   }
 }
