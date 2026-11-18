@@ -1,87 +1,115 @@
 # Neutral Disciplines
 
-Neutral Disciplines provides reusable advisory practices for software engineering.
-Each practice is an independently readable Intent Discipline record. Packs collect
-related practices, and curated Sets offer useful starting selections.
+Two Discipline Packs for [Intent](https://github.com/neutral/intent). A
+Discipline states one practice that holds in any project of its kind, with its
+reason, where it applies and the Checks that show a breach of it in a change.
+Each Pack is a release in Intent's Pack format: a folder that a project adopts
+whole.
 
-| Pack | Focus |
-| --- | --- |
-| [Go Engineering](packs/go-engineering/pack.json) | Package design, exported contracts, cancellation, concurrency, errors, testing, and agent-authored changes. |
-| [Test Strategy](packs/test-strategy/pack.json) | Verification design, test selection, malformed inputs, properties, replay, integration, and release evidence. |
+| Pack folder | Name and version | What it is for |
+| --- | --- | --- |
+| [`packs/go-engineering`](packs/go-engineering) | `go-engineering` 0.3.0 | Go code that stays small and local, keeps package boundaries and exported contracts deliberate, makes contexts, goroutines and shared state explicit, treats errors as contracts, keeps generated code and local harnesses reproducible, and tests with tables and fuzzing that can fail. |
+| [`packs/test-strategy`](packs/test-strategy) | `test-strategy` 0.3.0 | Tests and evidence in any language: choosing test families by the defects a change could cause; malformed-input, property, fuzz, model-based, differential, race, restart, contract, integration and smoke tests that assert what matters; and evidence that is fresh, exact about its subject and honest about its gaps. |
 
-Both Packs use version `0.1.0` and publisher `neutral`. Their
-records keep stable `discipline.neutral.*` IDs so selections remain precise.
+## Layout
 
-## Use a Pack
+Each Pack folder is a release:
 
-Choose practices that fit the target repository and current work. Read each
-practice's applicability, guidance, and verification suggestions. Sets can overlap;
-individual records remain independently selectable.
+- `pack.json` holds exactly the Pack's `name`, `version` and `title`.
+- Each `.md` file directly in the folder is one Discipline record, one
+  practice. Its ID is `discipline:<pack>.<file name without .md>`, as in
+  `discipline:go-engineering.context-cancellation`.
+- Nothing else in the folder is part of the release, and subfolders are not
+  read.
 
-Use [Intent](https://github.com/neutral/intent) to inspect the supplied Pack and
-prepare an adoption proposal. Select the exact Pack version and source revision,
-review the proposed records and target configuration, then apply the selected
-changes. The target owns its Work Types, requirements, Checks, and adoption choices.
+The fingerprint of a release is computed from its record files alone. A
+project's adoption records it, and `intent validate` reports a copy whose
+fingerprint no longer matches.
 
-The [IntentForge portfolio](https://github.com/neutral/intentforge) explains how
-Intent, Atlas, and Forge support development. These Packs supply optional advice
-for projects using Intent. Mandatory practices belong in the target's software
-definitions and Checks.
+## Adopt a Pack
 
-## File layout
-
-Each directory under `packs/` contains:
-
-- `pack.json`: Pack identity, version, publisher, and curated Sets;
-- `catalog.json`: record ownership and retrieval metadata;
-- `connections.json`: advisory references and relationships;
-- `records/`: current Discipline Markdown;
-- `pack.manifest.json`: generated fingerprints for the supplied Pack files.
-
-The Packs use Intent format 2. Local Markdown headers identify each record;
-Markdown carries its practice meaning and global files carry shared metadata.
-The Intent Library owns parsing, validation, and fingerprint computation.
-
-## Check the catalog
-
-Use Node.js 24 or newer and npm. From this repository, install the published
-`@neutral/intent@0.1.0` tool and its dependencies from the committed lockfile:
+From the project that adopts it, with this repository at hand on the same
+machine:
 
 ```sh
-npm ci
-npm run check
-npm test
+intent adopt /path/to/neutral-disciplines/packs/go-engineering --applies '**/*.go'
+intent adopt /path/to/neutral-disciplines/packs/test-strategy --applies 'tests/**' --applies 'src/**'
 ```
 
-Validation compares each supplied manifest with its current source files. Review
-any mismatch together with the authored changes. The scripts also accept
-`--intent-module /path/to/module/index.js`; `INTENT_MODULE` selects that module for
-the test suite. These selections identify the installed public Library API.
+- `intent adopt` copies the release's records into
+  `intent/discipline/<pack>/` and records in `intent/intent.json` the Pack's
+  version, its fingerprint and the globs where it applies. Repeat `--applies`
+  for each glob.
+- Where a Pack applies is chosen by the adopting project, and only there. A
+  project takes a release whole: there is no subset of a Pack to pick.
+- Intent hands every Discipline of the Pack, with all its Checks, to an agent
+  changing code under those globs. Each Check is written about what a change
+  adds or alters, so it holds without effort when the change does not touch
+  its subject.
+- A Check reaches a change only through the paths its globs match. For
+  `go-engineering`, `**/*.go` covers the Go code; add `go.mod`, `go.sum`,
+  `**/testdata/**` and the project's harness and generator inputs, such as
+  `Makefile`, `scripts/**` or `**/*.proto`, if their Checks should reach
+  changes there. For `test-strategy`, cover the tests and harnesses, the CI
+  configuration, and the product code whose changes should be asked for
+  tests.
+- Never edit the copy. When the project needs a practice held more strictly,
+  write a Blueprint with a `practice` relation to the Discipline and put the
+  project's own Check there. When a practice is missing or wrong, the lesson
+  goes to this repository's next release.
+- To take a new release, run `intent adopt` again on the new folder. Intent
+  reports the Disciplines and Checks added, removed and changed, and the
+  project records that name a changed one.
 
-## Maintain practices
+## Validate
 
-Keep one useful practice in each record. Preserve its ID while its meaning remains
-the same. Update applicability and verification advice together with the practice.
-Review the Pack version and curated Set membership whenever meaning changes.
-
-Preview manifests derived from the intended current files:
+Use Node.js 24 or newer. The scripts load the Intent Library from a module
+path, given with `--intent-module PATH` or the `INTENT_MODULE` environment
+variable, and call its `readPackRelease` on each Pack folder. The repository
+has no dependencies.
 
 ```sh
-npm run update-manifests
-npm run update-manifests -- --pack go-engineering
+npm run check -- --intent-module /path/to/intent/library/src/index.mjs
+INTENT_MODULE=/path/to/intent/library/src/index.mjs npm test
 ```
 
-After reviewing the source changes and preview, apply them explicitly:
+- `npm run check` prints each Pack's name, version, record count and
+  fingerprint, then every diagnostic, and exits 1 on any error.
+- `npm test` fails on any diagnostic, warnings included, and on a Pack whose
+  folder name differs from its name.
 
-```sh
-npm run update-manifests -- --write
-npm run check
-npm test
-git diff --check
-```
+## Maintain a practice
 
-The updater writes the selected current manifests. Keep commits focused on the
-reviewed practice and Pack changes.
+- Keep each practice's record name. The name is the Discipline's ID, which
+  adopting projects' Blueprints name in `practice` relations; renaming a file
+  makes a different Discipline.
+- Keep one practice per record, stated as what to do, with its reason, where
+  it applies and its guidance. Keep each record self-contained and free of
+  anything about one product. A Discipline writes no relations and has no
+  Read against section.
+- Change Checks with care: adopting projects rely on them. A Check whose slug
+  changes is a different Check, and projects may have tests whose
+  Descriptions apply a Check by its ID. Strengthen a Check's Claim or Fails
+  when rather than replace it when its meaning stays the same.
+- Each Check states its Claim, opening with the changes it is about, its Fails
+  when, the Evidence that decides it, and `Applied by.` `test` or `judgment`.
+  It may add a Holds when and its Limits. Each field is one paragraph. Use
+  `test` only for a claim one test in an adopting project can decide for every
+  later change; everything else is `judgment`.
+- Keep a Discipline's Checks few. Every change under an adopting project's
+  paths is handed every one, so a Check earns its place by catching a mistake
+  a change is likely to make. The rest of the practice is its Guidance.
+- Ask of each new or changed Check what wrong code would still pass it, and
+  whether right code would fail it, and give that question to a judge other
+  than the Check's author.
+- Every byte change to a record changes the release's fingerprint. Raise the
+  `version` in `pack.json` with each change that is released.
+- Run `npm run check` and `npm test` before handing a change on.
+
+The format is in Intent's contracts: `spec/packs.md` for a release,
+`spec/records.md` for a record and `spec/checks.md` for a Check. `intent guide
+discipline` and `intent guide checks` print what makes a Discipline and its
+Checks good.
 
 ## License
 

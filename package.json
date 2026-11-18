@@ -1,9 +1,8 @@
 {
   "name": "neutral-disciplines",
-  "version": "0.1.0",
+  "version": "0.3.0",
   "private": true,
-  "type": "module",
-  "description": "Reusable advisory Discipline Packs for Intent.",
+  "description": "Discipline Packs for Intent: Go engineering and test strategy.",
   "license": "CC0-1.0 OR 0BSD",
   "repository": {
     "type": "git",
@@ -15,10 +14,6 @@
   },
   "scripts": {
     "check": "node scripts/validate.mjs",
-    "test": "node --test scripts/validate.test.mjs && node scripts/validate.mjs",
-    "update-manifests": "node scripts/update-manifests.mjs"
-  },
-  "devDependencies": {
-    "@neutral/intent": "0.1.0"
+    "test": "node --test scripts/validate.test.mjs"
   }
 }
